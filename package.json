@@ -49,5 +49,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "version": "3.0.0"
+  "version": "3.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Csstenersen/node-red-contrib-nordpool-api.git"
+  }
 }
+
