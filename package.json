@@ -1,37 +1,11 @@
 {
-  "_from": "node-red-contrib-nordpool-api@3.0.0",
-  "_id": "node-red-contrib-nordpool-api@3.0.0",
-  "_inBundle": false,
-  "_integrity": "sha512-CgoI9Lk1kpSe1W3jqK/Nm/3vtQpX73aBgeqgNJ5hhtx6PzySN8O+0AlZ79AbNXEW4ylqccqr5+edzuGKJf7RIA==",
-  "_location": "/node-red-contrib-nordpool-api",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "node-red-contrib-nordpool-api@3.0.0",
-    "name": "node-red-contrib-nordpool-api",
-    "escapedName": "node-red-contrib-nordpool-api",
-    "rawSpec": "3.0.0",
-    "saveSpec": null,
-    "fetchSpec": "3.0.0"
-  },
-  "_requiredBy": [
-    "#USER",
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/node-red-contrib-nordpool-api/-/node-red-contrib-nordpool-api-3.0.0.tgz",
-  "_shasum": "6797442d1d74217c497c3152b2008e938c68a9ab",
-  "_spec": "node-red-contrib-nordpool-api@3.0.0",
-  "_where": "/Users/christopherstenersen/.node-red",
   "author": {
     "name": "Christopher Stenersen"
   },
   "bundleDependencies": false,
   "dependencies": {
-    "moment-timezone": "^0.5.13",
-    "nordpool": "^2.0.0",
-    "request": "^2.81.0",
-    "request-promise": "^4.2.1"
+    "moment": "^2.29.1",
+    "request": "^2.81.0"
   },
   "deprecated": false,
   "description": "A Node-Red Node for collecting `day ahead` prices from NorpoolGroup.",
@@ -46,10 +20,7 @@
       "nordpool-api": "nordpool-api.js"
     }
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "version": "3.0.4",
+  "version": "3.0.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/Csstenersen/node-red-contrib-nordpool-api.git"

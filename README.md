@@ -1,6 +1,3 @@
-# IMPORTANT UPDATE WITH CAUTION!!
-### Major bugfix in release 3.0.0 where in release 2.0.0 the output from the node was an array in the msg root.
-### This is now changed to be in msg.payload
 
 ## Node Red Nordpool API
 A Node-Red Node for collecting "day ahead" prices from NorpoolGroup.
@@ -57,3 +54,5 @@ the result is that the function node pushes a payload for every object in `msg`:
 result in UI:
 
 ![alt text](https://github.com/Csstenersen/2019/blob/master/png/example6.png?raw=true "Example")
+
+v3.0.5: Bugfix with price values above 1000 

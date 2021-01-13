@@ -140,7 +140,7 @@ module.exports = function(RED) {
                 Area: body.data.Rows[i].Columns[columnindex].Name,
                 Timestamp: moment(body.data.Rows[i].StartTime).format( "YYYY-MM-DD HH:mm"),
                 SortTime: new Date(moment(body.data.Rows[i].StartTime).format( "YYYY-MM-DD HH:mm")),
-                Price: parseFloat(body.data.Rows[i].Columns[columnindex].Value.replace(",", ".")),
+                Price: parseFloat(body.data.Rows[i].Columns[columnindex].Value.replace(" ", "").replace(",", ".")),
                 Valuta: body.data.Units[0]
               }
               priser.push(values)
