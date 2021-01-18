@@ -1,17 +1,19 @@
 
 ## Node Red Nordpool API
+
 A Node-Red Node for collecting "day ahead" prices from NorpoolGroup.
 
 ## Installation
+
 Go to your Node-RED user folder (e.g. ~/.node-red) and run:
+
 ```
 sudo npm i node-red-contrib-nordpool-api
 ```
 
 ## Usage
 
-
-The area and currency can be changed by selecting from the drop down menu in the properties:
+The area, currency and time span can be changed by selecting from the drop down menu in the properties:
 
 ![alt text](https://github.com/Csstenersen/2019/blob/master/png/example.png?raw=true "Example")
 
@@ -22,7 +24,7 @@ If the current time has passed 15:00 it returns an array of 48 objects. one pr.h
 
 If the current time is before 15:00 it returns an array of 24 objects. one pr.hour for current day. This i because the "day ahead" prices may not be published at this time. 
 
-Objects contains this properties: `Area`, `Valuta`, `Price` and `Timestamp`.
+Objects contains this properties: `Area`, `Valuta`, `Price` `StartTime`, `EndTime` and `Timestamp`.
 
 
 ![alt text](https://github.com/Csstenersen/2019/blob/master/png/example3.png?raw=true "Example")
@@ -55,4 +57,12 @@ result in UI:
 
 ![alt text](https://github.com/Csstenersen/2019/blob/master/png/example6.png?raw=true "Example")
 
-v3.0.5: Bugfix with price values above 1000 
+v3.0.6:
+Added "StartTime" and "EndTime" properties to payload. 
+Added timespan to properties. 
+Added topic to msg to be either "hourly", "daily", "weekly" or "monthly" based on the configuration of the node
+Added areas AT, BE, DE-LU, FR, NL Some bugging appears on those areas with weekly and monthly prices. 
+
+v3.0.5: 
+Bugfix with price values above 1000 
+

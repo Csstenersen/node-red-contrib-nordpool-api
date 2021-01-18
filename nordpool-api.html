@@ -3,29 +3,29 @@
         category: 'Request',
         color: '#a6bbcf',
         defaults: {
-            name: {value:""},
             area: {value:"Oslo"},
             currency: {Value:"NOK"},
-            ahead_hours: {Value:"3"}
+            timeSpan: {Value:"hourly"}
         },
         inputs:1,
         outputs:1,
-        icon: "white-globe.png",
+        icon: "font-awesome/fa-line-chart",
+        color: "#c7bbc9",
         label: function() {
-            return this.name||"nordpool-api";
+            return this.name||"Nordpool";
         }
     });
 </script>
 
-<script type="text/x-red" data-template-name="nordpool-api">
+<script type="text/html" data-template-name="nordpool-api">
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-        <label for="node-input-area"><i class="icon-tag"></i> area</label>
+        <label for="node-input-area"><i class="fa fa-globe"></i> Area</label>
         
-        <select value="" id="node-input-area" placeholder="area">
+        <select value="" id="node-input-area" placeholder="Area">
             <option value="SYS">SYS</option>
             <option value="SE1">SE1</option>
             <option value="SE2">SE2</option>
@@ -42,25 +42,52 @@
             <option value="Tromsø">Tromsø</option>
             <option value="EE">EE</option>
             <option value="LV">LV</option>
+            <option value="LT">LT</option>
+            <option value="AT">AT</option>
+            <option value="BE">BE</option>
+            <option value="DE-LU">DE-LU</option>
+            <option value="FR">FR</option>
+            <option value="NL">NL</option>
         </select>
     </div>
+
     <div class="form-row">
-        <label for="node-input-currency"><i class="icon-tag"></i> currency</label>
+        <label for="node-input-currency"><i class="fa fa-money"></i> Currency</label>
         
-        <select value="" id="node-input-currency" placeholder="currency">
+        <select value="" id="node-input-currency" placeholder="Currency">
             <option value="EUR">EUR/MWh</option>
             <option value="NOK">NOK/MWh</option>
             <option value="DKK">DKK/MWh</option>
             <option value="SEK">SEK/MWh</option>
         </select>
     </div>
+
+    <div class="form-row">
+        <label for="node-input-timeSpan"><i class="fa fa-clock-o"></i> Time span</label>
+        
+        <select value="" id="node-input-timeSpan" placeholder="Time Span">
+            <option value="hourly">Hourly</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+        </select>
+    </div>
     
 </script>
 
-<script type="text/x-red" data-help-name="nordpool-api">
+<script type="text/html" data-help-name="nordpool-api">
     <p>A Node-Red Node for collecting `day ahead` prices from NorpoolGroup.</p>
+
+    <p>When using this node be sure to not violate the terms and conditions for use provided by Nordpoolgroup.</p>
+
+    <p><a href="https://www.nordpoolgroup.com/About-us/Terms-and-conditions-for-use/">Terms and conditions can be found here</a></p>
+    
     <p>By default on input the node collect the prices from area `Oslo` 
-    in currency `NOK/MWh` The area and currency can be changed by selecting from the drop down menu 
+    in currency `NOK/MWh` The area, currency and time span can be changed by selecting from the drop down
     in the properties menu</p>
+
+    <p>Please refer to <a href="https://www.nordpoolgroup.com/maps/#/nordic">area map</a> to find your suitable area</p>
+
+    <p>The node outputs an array of objects containing Area, Timestamp, StartTime, EndTime, Price and Valuta</p>
 
 </script>
