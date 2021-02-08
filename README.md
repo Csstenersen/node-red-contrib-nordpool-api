@@ -57,6 +57,12 @@ result in UI:
 
 ![alt text](https://github.com/Csstenersen/2019/blob/master/png/example6.png?raw=true "Example")
 
+
+v3.0.8:
+Fixed issue with nordpool changing API setup
+"LV", "LT", "AT"," BE", "DE-LU", "FR", "NL is removed as a choice in config
+
+
 v3.0.6:
 Added "StartTime" and "EndTime" properties to payload. 
 Added timespan to properties. 

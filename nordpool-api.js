@@ -35,99 +35,83 @@ module.exports = function(RED) {
         var url = String
         var date1 = moment().format("DD-MM-YYYY")
         var loops = 24 //default value, hours in one day
-        var timeSpan = node.timeSpan || '10' // '10' equals hourly in response from nordpool url
-        switch(timeSpan){
-          case "hourly":
-            timeSpan = "10"
-            break;
-          case "daily":
-            timeSpan = "11"
-            loops = 31
-            break;
-          case "weekly":
-            timeSpan = "12"
-            loops = 24
-            break;
-          case "monthly":
-            timeSpan = "13"
-            loops = 53
-            break;
-          }
+        var timeSpan = node.timeSpan || "daily" // '10' equals hourly in response from nordpool url
         var msg = {
           payload: {},
           topic: this.timeSpan
           }
-// funksjon som oppdaterer URL slik at priser blir hentet med riktig valuta (CURRENCY) og riktig dato:
-
-        function updateUrl(date){
-          url = `https://www.nordpoolgroup.com/api/marketdata/page/${timeSpan}/?currency=,` 
-          + CURRENCY + "," 
-          + CURRENCY + "," 
-          + CURRENCY 
-          + "&endDate=" + date;
-          }
-    
-        updateUrl(date1)
 
 // Switch som setter riktig "columnindex" som senere benyttes for å hente priser for valgt område i config. 
 
         switch(AREA){
-          case "SYS":
+
+          case "SE1":
             var columnindex = 0
+            timeSpan = 29
             break;
         
-          case "SE1":
-              var columnindex = 1
-              break;
-        
           case "SE2":
-            var columnindex = 2
+            var columnindex = 1
+            timeSpan = 29
             break;
         
           case "SE3":
-            var columnindex = 3
+            var columnindex = 2
+            timeSpan = 29
             break;  
         
           case "SE4":
-           var columnindex = 4
+           var columnindex = 3
+           timeSpan = 29
            break; 
         
           case "FI":
-            var columnindex = 5
+            var columnindex = 0
+            timeSpan = 35
              break;
         
           case "DK1":
-            var columnindex = 6
+            var columnindex = 0
+            timeSpan = 41
             break;   
             
           case "DK2":
-            var columnindex = 7
+            var columnindex = 1
+            timeSpan = 41
              break;
         
           case "Oslo":
-            var columnindex = 8
+            var columnindex = 0
+            timeSpan = 23
             break;
         
           case "Kr.sand":
-            var columnindex = 9
+            var columnindex = 1
+            timeSpan = 23
             break;  
           
           case "Bergen":
-            var columnindex = 10
+            var columnindex = 2
+            timeSpan = 23
             break; 
         
           case "Molde":
-            var columnindex = 11
+            var columnindex = 3
+            timeSpan = 23
             break;
         
           case "Tr.heim":
-            var columnindex = 12
+            var columnindex = 4
+            timeSpan = 23
             break;
         
           case "Tromsø":
-            var columnindex = 13
-            break;
+            var columnindex = 5
+            timeSpan = 23
+            break
         
+          /* Following is not ready
+          
           case "EE":
             var columnindex = 14
             break;
@@ -138,6 +122,7 @@ module.exports = function(RED) {
         
           case "LT":
             var columnindex = 16
+            timeSpan = 53
             break;
           
           case "AT":
@@ -158,9 +143,41 @@ module.exports = function(RED) {
           
           case "NL":
             var columnindex = 21
-            break;
-        }
-    
+            break;  
+            
+            */        
+          };
+
+          // funksjon som oppdaterer URL slik at priser blir hentet med riktig valuta (CURRENCY) og riktig dato:
+
+        function updateUrl(date){
+          switch(node.timeSpan){
+          
+            case "hourly":
+              timeSpan = timeSpan 
+              break;
+  
+            case "daily":
+              timeSpan = timeSpan + 1
+              loops = 31
+              break;
+  
+            case "weekly":
+              timeSpan = timeSpan + 2
+              loops = 24
+              break;
+  
+            case "monthly":
+              timeSpan = timeSpan + 3
+              loops = 53
+            }
+
+          url = `https://www.nordpoolgroup.com/api/marketdata/page/${timeSpan}?currency=,`  
+          + CURRENCY 
+          + "&endDate=" + date;
+          }
+        updateUrl(date1)
+
 // Promise funksjon som henter priser fra NordPool
       
         var promise1 = new Promise((resolve, reject) => {  
@@ -175,22 +192,24 @@ module.exports = function(RED) {
             }
           for (var i=0; i < loops; i++){
             let values = {
-              Area: body.data.Rows[i].Columns[columnindex].Name,
-              Timestamp: moment(body.data.Rows[i].StartTime).format( "YYYY-MM-DD HH:mm"),
-              StartTime: moment(body.data.Rows[i].StartTime).format( "YYYY-MM-DD HH:mm"),
-              EndTime: moment(body.data.Rows[i].EndTime).format( "YYYY-MM-DD HH:mm"),
-              SortTime: new Date(moment(body.data.Rows[i].StartTime).format( "YYYY-MM-DD HH:mm")),
-              Price: parseFloat(body.data.Rows[i].Columns[columnindex].Value.replace(" ", "").replace(",", ".")),
-              Valuta: body.data.Units[0]
+              Area: body.data.Rows[i].Columns[columnindex].Name, 
+              Timestamp: moment(body.data.Rows[i].StartTime).format( "YYYY-MM-DD HH:mm"), 
+              StartTime: moment(body.data.Rows[i].StartTime).format( "YYYY-MM-DD HH:mm"), 
+              EndTime: moment(body.data.Rows[i].EndTime).format( "YYYY-MM-DD HH:mm"), 
+              SortTime: new Date(moment(body.data.Rows[i].StartTime).format( "YYYY-MM-DD HH:mm")), 
+              Price: parseFloat(body.data.Rows[i].Columns[columnindex].Value.replace(" ", "").replace(",", ".")), 
+              Valuta: body.data.Units[0] 
               }
             priser.push(values)
             resolve(values)
             }
           })
         });
+
 // Dersom klokken er over 15:00 som er definert i variabel "comparetime" så hentes priser for neste døgn. 
 // Dersom klokken er før 15:00 hentes ikke priser for neste døgn da det er risiko for at disse ikke er publisert enda. 
-        if (date > comparetime & timeSpan == "10") {
+
+        if (date > comparetime & node.timeSpan == "hourly") {
           date = moment().add(1,"day").format("DD-MM-YYYY")
           updateUrl(date)
           var promise2 = new Promise((resolve, reject) => {  
