@@ -6,8 +6,6 @@
 
 A Node-Red Node for collecting "day ahead" prices from Nord Pool Group.
 
-*This is a fork of the original node-red-contrib-nordpool-api, but with source code on github to make pull request possible and issue handling. Later that year: the original code is now [uploaded here](https://github.com/Csstenersen/node-red-contrib-nordpool-api)*
-
 ## Installation
 Go to your Node-RED user folder (e.g. ~/.node-red) and run:
 ```
