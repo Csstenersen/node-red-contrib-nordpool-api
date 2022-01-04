@@ -1,7 +1,7 @@
 {
   "author": {
     "name": "Christopher Stenersen"
-  },  
+  },
   "dependencies": {
     "nordpool": "^3.0.0"
   },
@@ -19,7 +19,7 @@
       "nordpool-api": "nordpool-api.js"
     }
   },
-  "version": "3.1.0",
+  "version": "4.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Csstenersen/node-red-contrib-nordpool-api.git"
