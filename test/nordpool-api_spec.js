@@ -6,6 +6,7 @@ const testNode = require('../nordpool-api.js')
 helper.init(require.resolve('node-red'))
 
 describe('nordpool-api Node', function () {
+  this.timeout('120s')
   beforeEach(function (done) {
     helper.startServer(done)
   })
