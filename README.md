@@ -1,74 +1,55 @@
+# Node Red Nordpool API
 
-## Node Red Nordpool API
+[![Platform](https://img.shields.io/badge/platform-Node--RED-red)](https://nodered.org)
+[![NPM Total Downloads](https://img.shields.io/npm/dt/node-red-contrib-nordpool-api.svg)](https://www.npmjs.com/package/node-red-contrib-nordpool-api)
+[![Dependencies](https://img.shields.io/librariesio/release/npm/node-red-contrib-nordpool-api.svg)](https://libraries.io/github/Csstenersen/node-red-contrib-nordpool-api)
 
-A Node-Red Node for collecting "day ahead" prices from NorpoolGroup.
+A Node-Red Node for collecting "day ahead" prices from Nord Pool Group.
 
 ## Installation
-
 Go to your Node-RED user folder (e.g. ~/.node-red) and run:
-
 ```
-sudo npm i node-red-contrib-nordpool-api
+npm install node-red-contrib-nordpool-api
 ```
+This node uses the unofficial nordpool API [found here](https://github.com/samuelmr/nordpool-node).
 
 ## Usage
 
-The area, currency and time span can be changed by selecting from the drop down menu in the properties:
 
-![alt text](https://github.com/Csstenersen/2019/blob/master/png/example.png?raw=true "Example")
+The area and currency can be changed by selecting from the drop down menu in the properties, or by inputting the setting via a `msg`:
 
-### example:
-Use a inject node to trigger a request to nordpool
+![](/img/example.png)
 
-If the current time has passed 15:00 it returns an array of 48 objects. one pr.hour for this day and the day ahead.
+### Examples:
+Use a inject node to trigger a request to nordpool, to get prices for today.
 
-If the current time is before 15:00 it returns an array of 24 objects. one pr.hour for current day. This i because the "day ahead" prices may not be published at this time. 
+Its also possible to inject a `msg.date` to get price from a specific date, or pricing for tomorrow. If you request tomorrows data before 14:42 there's a risk that data is not available yet and you will get the data from the current date. See [API issue#1](https://github.com/samuelmr/nordpool-node/issues/1#issuecomment-316583765)
 
-Objects contains this properties: `Area`, `Valuta`, `Price` `StartTime`, `EndTime` and `Timestamp`.
+An 24 object long array is returned on success. The objects contains this properties: `timestamp`, `price`, `currency` and `area`.
 
+![](/img/example3.png)
 
-![alt text](https://github.com/Csstenersen/2019/blob/master/png/example3.png?raw=true "Example")
+## Example with dashboard chart:
+In Node-RED editor, click menu at top right corner -> Import -> Examples -> node-red-contrib-nordpool-api -> basic-dashboard.
 
-### Example with UI chart:
+Use a function node to convert `msg` to values readable for dashboard chart node like this:
 
-Use a function node to convert `msg` to values readable for UI chart node:
-![alt text](https://github.com/Csstenersen/2019/blob/master/png/example5.png?raw=true "Example")
+![](/img/example5.png)
 
-the function node in this example contains:
+The function node in this example contains:
 
 ````
 var msg1 = {}
 for (var i = 0; i<msg.payload.length;i++){
     msg1 = {
-        topic:msg.payload[i].Area + " " + msg.payload[i].Valuta, 
-        payload:msg.payload[i].Price, 
-        timestamp:msg.payload[i].Timestamp,
-        }
-    node.send(msg1)
+        topic:msg.payload[i].currency, 
+        payload:msg.payload[i].price, 
+        timestamp:msg.payload[i].timestamp,
     }
-return;
+    node.send(msg1)
+}
 ````
 
-the result is that the function node pushes a payload for every object in `msg`:
+This could be the displayed result in:
 
-![alt text](https://github.com/Csstenersen/2019/blob/master/png/example7.png?raw=true "Example")
-
-result in UI:
-
-![alt text](https://github.com/Csstenersen/2019/blob/master/png/example6.png?raw=true "Example")
-
-
-v3.0.8:
-Fixed issue with nordpool changing API setup
-"LV", "LT", "AT"," BE", "DE-LU", "FR", "NL is removed as a choice in config
-
-
-v3.0.6:
-Added "StartTime" and "EndTime" properties to payload. 
-Added timespan to properties. 
-Added topic to msg to be either "hourly", "daily", "weekly" or "monthly" based on the configuration of the node
-Added areas AT, BE, DE-LU, FR, NL Some bugging appears on those areas with weekly and monthly prices. 
-
-v3.0.5: 
-Bugfix with price values above 1000 
-
+![](/img/example6.png)

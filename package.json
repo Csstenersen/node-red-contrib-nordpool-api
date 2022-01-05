@@ -2,15 +2,14 @@
   "author": {
     "name": "Christopher Stenersen"
   },
-  "bundleDependencies": false,
   "dependencies": {
-    "moment": "^2.29.1",
-    "request": "^2.81.0"
+    "nordpool": "^3.0.0"
   },
-  "deprecated": false,
-  "description": "A Node-Red Node for collecting `day ahead` prices from NorpoolGroup.",
+  "description": "A Node-Red Node for collecting `day ahead` prices from Nord Pool Group.",
   "keywords": [
-    "node-red"
+    "node-red",
+    "nord pool",
+    "watt prices"
   ],
   "license": "ISC",
   "main": "nordpool-api.js",
@@ -20,9 +19,21 @@
       "nordpool-api": "nordpool-api.js"
     }
   },
-  "version": "3.0.8",
+  "version": "4.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Csstenersen/node-red-contrib-nordpool-api.git"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/Csstenersen/node-red-contrib-nordpool-api/issues"
+  },
+  "files": [
+    "nordpool-api.html",
+    "examples/"
+  ],
+  "scripts": {
+    "pretest": "npm install node-red-node-test-helper node-red mocha --no-save",
+    "test": "mocha \"test/**/*_spec.js\""
+  },
+  "devDependencies": {}
 }
